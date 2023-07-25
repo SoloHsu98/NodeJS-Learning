@@ -1,0 +1,4 @@
+This is sample text file which we are going to read using NODE JS.
+
+ This content is from append.txt file and will be appended to input.txt
+ Date created: Tue Jul 25 2023 09:27:21 GMT+0630 (Myanmar Time)

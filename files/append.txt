@@ -1,0 +1,1 @@
+This content is from append.txt file and will be appended to input.txt
