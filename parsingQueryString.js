@@ -5,8 +5,16 @@ const url = require("url");
 let products = JSON.parse(fs.readFileSync("./products.json", "utf-8"));
 const html = fs.readFileSync("./template/index.html", "utf-8");
 let productHtml = fs.readFileSync("./products.html", "utf-8");
+let productDetailHtml = fs.readFileSync(
+  "./template/product-details.html",
+  "utf-8"
+);
 let productHtmlArray = products.map((prod) => {
-  let output = productHtml.replace("{{%Image%}}", prod.productImage);
+  return replaceHtml(productHtml, prod);
+});
+
+function replaceHtml(template, prod) {
+  let output = template.replace("{{%Image%}}", prod.productImage);
   output = output.replace("{{%NAME%}}", prod.name);
   output = output.replace("{{%ModelName%}}", prod.modelName);
   output = output.replace("{{%Size%}}", prod.size);
@@ -15,9 +23,11 @@ let productHtmlArray = products.map((prod) => {
   output = output.replace("{{%Prices%}}", prod.price);
   output = output.replace("{{%Color%}}", prod.color);
   output = output.replace("{{%ID%}}", prod.id);
+  output = output.replace("{{%ROM%}}", prod.ROM);
+  output = output.replace("{{%DESC%}}", prod.Description);
 
   return output;
-});
+}
 const server = http.createServer((req, res) => {
   let { query, pathname: path } = url.parse(req.url, true);
   // let path = req.url;
@@ -50,7 +60,9 @@ const server = http.createServer((req, res) => {
       );
       res.end(productRes);
     } else {
-      res.end("This is a product with ID = " + query.id);
+      let prod = products[query.id];
+      let productDetailRes = replaceHtml(productDetailHtml, prod);
+      res.end(html.replace("{{%CONTENT%}}", productDetailRes));
     }
   } else {
     res.writeHead(404, {
