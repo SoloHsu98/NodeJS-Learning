@@ -2,6 +2,7 @@
 const fs = require("fs");
 const http = require("http");
 const url = require("url");
+const replaceHtml = require("./modules/replaceHtml");
 let products = JSON.parse(fs.readFileSync("./products.json", "utf-8"));
 const html = fs.readFileSync("./template/index.html", "utf-8");
 let productHtml = fs.readFileSync("./products.html", "utf-8");
@@ -13,21 +14,6 @@ let productHtmlArray = products.map((prod) => {
   return replaceHtml(productHtml, prod);
 });
 
-function replaceHtml(template, prod) {
-  let output = template.replace("{{%Image%}}", prod.productImage);
-  output = output.replace("{{%NAME%}}", prod.name);
-  output = output.replace("{{%ModelName%}}", prod.modelName);
-  output = output.replace("{{%Size%}}", prod.size);
-  output = output.replace("{{%Camera%}}", prod.camera);
-  output = output.replace("{{%ModelNo%}}", prod.modelNumber);
-  output = output.replace("{{%Prices%}}", prod.price);
-  output = output.replace("{{%Color%}}", prod.color);
-  output = output.replace("{{%ID%}}", prod.id);
-  output = output.replace("{{%ROM%}}", prod.ROM);
-  output = output.replace("{{%DESC%}}", prod.Description);
-
-  return output;
-}
 const server = http.createServer((req, res) => {
   let { query, pathname: path } = url.parse(req.url, true);
   // let path = req.url;
