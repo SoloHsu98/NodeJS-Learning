@@ -1,6 +1,9 @@
 const fs = require("fs");
 const http = require("http");
 const url = require("url");
+const events = require("events");
+
+const user = require("./modules/user");
 const replaceHtml = require("./modules/replaceHtml");
 let products = JSON.parse(fs.readFileSync("./products.json", "utf-8"));
 const html = fs.readFileSync("./template/index.html", "utf-8");
@@ -64,3 +67,16 @@ server.listen(8000, "127.0.0.1", () => {
 //server obj is instance of node js event emitter class
 
 //so event emitting & listening logic is called as Observer Pattern in JS
+
+//Emitting & Handling Custom Events
+let myEmitter = new user();
+
+myEmitter.on("userCreated", (id, name) => {
+  console.log(`A new user ${name} with ID ${id} is created`);
+});
+
+myEmitter.on("userCreated", (id, name) => {
+  console.log(`A new user ${name} with ID ${id} is added to database`);
+});
+
+myEmitter.emit("userCreated", 1, "Solo");
