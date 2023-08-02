@@ -1,0 +1,36 @@
+when read file with fs.readFile buffer is created between source file and the process
+
+content is read in the read buffer and all the content is read at once and then it is available in node apps
+
+and also written process 
+
+after all it takes a lot of system memory to store that data 
+With streams, we can process data piece by piece instead of reading or writing whole data at once and we don't have to keep all data in memory
+
+streams are instance of event emitter class
+
+4 types of streams
+
+1. Readable stream
+2. Writable stream
+3. Duplex stream
+4. Transform stream
+
+1. Readable stream => read & pipe function 
+
+read method => to read each chunk from the readable stream one after another
+pipe method => allow to plug streams together passing data from one stream to another: eg: we can read data from readable stream and write it to the writable stream simultaneously
+
+data & end streams 
+
+
+2. Writable stream => opps to readable stream
+
+drain events => call when writable stream internal buffer is emptied
+finish events => called by end method
+
+write & end method
+
+3. Duplex stream => readable & writable at the same time : eg: web sockets => communication channel between client & server and used in real-time chat apps
+
+4. Transform stream => duplex streams that can modify or transform data as it is read or written: eg: zlib
