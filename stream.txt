@@ -34,3 +34,6 @@ write & end method
 3. Duplex stream => readable & writable at the same time : eg: web sockets => communication channel between client & server and used in real-time chat apps
 
 4. Transform stream => duplex streams that can modify or transform data as it is read or written: eg: zlib
+
+
+back pressure => the response cannot send the data as fast as it is receiving it from the file
