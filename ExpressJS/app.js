@@ -12,8 +12,26 @@ app.get("/api/v1/movies", (req, res) => {
   }); //send as JSend format and make enveloping
 });
 
+app.get("/api/v1/movies/:id", (req, res) => {
+  const id = req.params?.id * 1;
+
+  let movie = movies.find((el) => el.id === id);
+
+  if (!movie) {
+    res.status(404).json({
+      status: "Not Found",
+      message: "Movie with ID " + id + " is not found",
+    });
+  }
+  res.status(200).json({
+    status: 200,
+    data: {
+      movie: movie,
+    },
+  });
+}); //:means that specifies this ID is a route parameter, ? means this route parameter is optional
+
 app.post("/api/v1/movies", (req, res) => {
-  console.log("req", req.body);
   const newId = movies[movies?.length - 1]?.id + 1;
   const newMovie = Object.assign({ id: newId }, req.body);
   movies.push(newMovie);
