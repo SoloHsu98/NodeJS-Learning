@@ -44,6 +44,32 @@ app.post("/api/v1/movies", (req, res) => {
     });
   });
 });
+
+app.patch("/api/v1/movies/:id", (req, res) => {
+  let id = req.params.id * 1;
+
+  let movie = movies?.find((el) => el.id === id);
+
+  if (!movie) {
+    return res.status(404).json({
+      status: 404,
+      message: "No movie object with ID " + id + " is found",
+    });
+  }
+  let index = movies.indexOf(movie);
+
+  Object.assign(movie, req.body); // obj နှစ်ခုမတူရင် နှစ်ခုလုံးစီကယူပြီးတစ်ခုတည်းဖြစ် obj နှစ်ခု property တူတယ်ဆိုရင် sec obj ရဲ့ updated value ကိုယူ
+
+  movies[index] = movie;
+  fs.writeFile("./data/movies.json", JSON.stringify(movies), (err) => {
+    res.status(200).json({
+      status: "success",
+      data: {
+        movie: movie,
+      },
+    });
+  });
+});
 const port = 3002;
 app.listen(port, () => {
   console.log("Server has started");
